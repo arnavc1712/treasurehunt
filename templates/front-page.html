@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TreasureHunt</title>
+	<style type="text/css">
+	.title{
+		display: block;
+	    color: #00FFFF;
+	    font-size: 20px;
+	    font-weight: bold;
+	    text-decoration: none;
+	}
+	</style>
+</head>
+<body>
+	<h1>Treasure Hunt!</h1>
+	<form method="post">
+	<input type="text" name="query" value="{{query}}">
+	</form>
+	<ul>
+	{% for url in urls %}
+	<div class="links"><li><a href="{{url}}" class="title"> {{url}}</a></li></div>
+	{% endfor %}
+	</ul>
+	
+	
+	
+</body>
+</html>
