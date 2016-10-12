@@ -42,7 +42,7 @@ stop_words = get_stop_words('english')
 
 
 def get_page(page):
-	return urllib.urlopen(page).read()
+	return BeautifulSoup(urllib.urlopen(page).read())
 
 def get_all_links(page,url):     #GETTING LINKS PRESENT IN EACH CRAWLED PAGE
 	links=[]
@@ -50,8 +50,10 @@ def get_all_links(page,url):     #GETTING LINKS PRESENT IN EACH CRAWLED PAGE
 	page_url=urlparse(url)
 	if page_url[0]:
 		base = page_url[0] + '://' + page_url[1]
-	soup=BeautifulSoup(page,'html.parser')
-	for link in soup.find_all('a'):
+	else:
+		base= "https://" + page_url[1]
+	# soup=BeautifulSoup(page,'html.parser')
+	for link in page.find_all('a'):
 	 	link_url=link.get('href')
 	 	print "[get_all_links()] Found a link: ", link_url
 	 	if link_url == None or "javascript" in link_url or "mailto" in link_url or "tel" in link_url: 
@@ -76,13 +78,13 @@ def crawl_web(seed):    #CRAWLING ALL WEB PAGES FROM A GIVEN SEED PAGE
 	i=0
 	while tocrawl:
 		page=tocrawl.pop()
-		if page not in crawled and i!=2:
+		if page not in crawled and i<=2:
 			content=get_page(page)
-			add_page_to_index(index,page,BeautifulSoup(content))
+			add_page_to_index(index,page,content)
 			union(tocrawl,get_all_links(content,page))
 			crawled.append(page)
-			print "i=",i
 			i=i+1
+			
 
 
 	# return index
@@ -109,8 +111,14 @@ def add_to_index(index,keyword,url):  #CREATING AN INDEX OF KEYWORDS AND THE URL
 
 def add_page_to_index(index,url,content): #SPLITTING EACH WORD PRESENT IN THE TEXT AND REMOVING STOP WORDS AND PUNCTUATIONS
     words=[]
-    text = content.body.get_text()
+    try:
+        text = content.body.get_text()
+    except AttributeError:
+        return
+   
+
 	
+
     words=text.split()
     punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
     for word in words:
@@ -126,8 +134,9 @@ def add_page_to_index(index,url,content): #SPLITTING EACH WORD PRESENT IN THE TE
 def lookup(index,keyword): #LOOKING UP THE INDEX TO FIND THE WORDS QUERIED
     urls=[]
     words=[]
-    for key in keyword:
-    	keyword.replace(key,key.lower())
+    # for key in keyword:
+    # 	keyword.replace(key,key.lower())
+    keyword=keyword.lower()
     words=keyword.split()
     
     for word in words:
@@ -212,7 +221,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-    	crawl_web("https://en.wikipedia.org/wiki/Butterfly")
+    	crawl_web("http://www.udacity.com/overview/Course/cs101/")
     	self.render("front-page.html")
     # 	self.write(index)
     	
