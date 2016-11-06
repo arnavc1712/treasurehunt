@@ -38,7 +38,6 @@ import jinja2
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-
 sys.path.insert(0, 'libs')
 from bs4 import BeautifulSoup
 from stop_words import get_stop_words
@@ -142,7 +141,7 @@ def crawl_web(seed):   #CRAWLING ALL WEB PAGES FROM A GIVEN SEED PAGE
 	i=0
 	while tocrawl:
 		page=tocrawl.pop()
-		if page not in crawled and len(crawled)<100:
+		if page not in crawled and len(crawled)<10:
 			
 			content,page=get_page(page)
 			cache[page] = content
@@ -330,16 +329,23 @@ crawl_web(seed)
 class MainHandler(Handler):
     def get(self):
     	
-    	# self.render("front-page.html")
-    	self.write(compute_ranks(graph))
+    	self.render("front-page.html")
+    	# self.write(compute_ranks(graph))
     	
 
     def post(self):
     	
     	query=self.request.get("query")
+        page_num = self.request.get("pageno")
+        start = int(page_num) * 5
+        end = (int(page_num) + 1) * 5
     	urls=[]
     	global index
     	urls=list(lookup(index,query))
+        if end < len(urls):
+            urls = urls[start:end]
+        elif start < len(urls):
+            urls = urls[start:(len(urls)-1)]
     	if urls:
     		self.render("front-page.html",urls=urls,query=query)
     	elif not urls:
