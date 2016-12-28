@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>TreasureHunt</title>
+	<link rel="stylesheet" href="/static/styles.css">
 	<style type="text/css">
 	.title{
 		display: block;
@@ -10,22 +11,66 @@
 	    font-weight: bold;
 	    text-decoration: none;
 	}
+	.error{
+		color: red;
+	}
 	</style>
 </head>
-<body>
-	<h1>Treasure Hunt!</h1>
-	<form method="post">
-	<input type="text" name="query" value="{{query}}">
-	<input type="text" name="pageno" value="{{pageno}}">
-	<input type="submit"/>
-	</form>
-	<ul>
-	{% for url in urls %}
-	<div class="links"><li><a href="{{url}}" class="title"> {{url}}</a></li></div>
+<body>	
+	
+	<div class="top-toolbar">
+  <nav>
+    <a href="#">Images</a>
+    <a href="#">Videos</a>
+    <a href="#">Documents</a>
+    <a href="#"><button class="signin">More</button></a>
+  </nav>
+</div>
+<div class="search">
+  <div class="logo">
+    <img src="http://vignette4.wikia.nocookie.net/dream-world/images/b/b4/Treasurechest.png/revision/latest?cb=20110522114622" />
+  </div>
+  <form method="post">
+  <input class="search-bar" type="search" name="query" value="{{query}}" autofocus x-webkit-speech/>
+  <input type="text" name="pageno" value="{{pageno}}" >
+
+  <div class="search-nav">
+    <div class="search-button">
+      <a href="#"><button>Previous</button></a>
+      <a href="#"><button>Treausre Hunt!</button></a>
+      <a href="#"><button >Next</button></a>
+    </div>
+   </form>
+  </div>
+</div>
+
+{% for url in urls %}
+	<div class="links">
+	<li>
+	<a href="{{url}}" class="title"> <b>{{pagedata[url][0]}}</b></a>
+	<p>{{pagedata[url][1][0:600]}}</p>
+	</li>
+
+	</div>
 	{% endfor %}
 	</ul>
+    <div class="error">{{error}}
+	</div>
+<div class="footer">
+  <footer class="bottom-toolbar">
+    <nav class="footer-left">
+      <a href="#">Advertising</a>
+      <a href="#">Business</a>
+      <a href="#">About</a>
+    </nav>
+    <nav class="footer-right">
+      <a href="#">Privacy &amp; Terms</a>
+      <a href="#">Settings</a>
+    </nav>
+  </footer>
+</div>
 	
-	
-	
+
+
 </body>
 </html>
