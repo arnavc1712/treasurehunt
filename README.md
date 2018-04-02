@@ -1,5 +1,5 @@
 # treasurehunt
-Attempt at making a simple Search Engine
+Built a Search Engine from ground up, including web crawlers.
 
 Downloads required
 
