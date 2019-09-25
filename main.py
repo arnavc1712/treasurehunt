@@ -130,21 +130,27 @@ def crawl_web(seed):   #CRAWLING ALL WEB PAGES FROM A GIVEN SEED PAGE
 			tocrawl.append(urls)
 
 	crawled=[]
-	i=0
-	while tocrawl:
-		page=tocrawl.pop()
-		if page not in crawled and len(crawled)<50 and is_youtube(page):
-			print("Crawling: ",page)
-			content,page=get_page(page)
-			cache[page] = content
-			get_page_data(content, page, pagedata)
-			add_page_to_index(index,page,content)
-			outlinks=get_all_links(content,page)
-			graph[page]=outlinks
-			union(tocrawl,outlinks)
-			crawled.append(page)
+	i=5
+	while len(tocrawl)>0:
+		i-=1
+		if i>0:
+			for pg in range(len(tocrawl)):
+				# print(len())
+				page=tocrawl.pop(0)
+				if page not in crawled and len(crawled)<50 and is_youtube(page):
+					print("Crawling: ",page)
+					content,page=get_page(page)
+					cache[page] = content
+					get_page_data(content, page, pagedata)
+					add_page_to_index(index,page,content)
+					outlinks=get_all_links(content,page)
+					graph[page]=outlinks
+					union(tocrawl,outlinks)
+					crawled.append(page)
+		else:
+			break
 
-			# i=i+1
+				# i=i+1
 			
 			
 def get_page_data(page, url, dict):
