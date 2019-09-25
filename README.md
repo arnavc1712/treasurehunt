@@ -7,8 +7,20 @@ Have create **Indexes** on the keywords too. For now it supports single keyword 
 
 
 
-Downloads required
+## Downloads required
+   Some of the modules being used are:
+1) Google App Engine
+2) Beautiful Soup
+3) Webapp2
 
-1) Google App engine
-2) Beautiful Soup Python Library
-3) Stop Words Library - https://pypi.python.org/pypi/stop-words
+Can download all the modules using 
+```bash
+pip install -r requirements.txt
+``` 
+Also make sure to download the Stop Words Library - https://pypi.python.org/pypi/stop-words
+
+
+## Run
+```bash
+python main.py
+``` 
