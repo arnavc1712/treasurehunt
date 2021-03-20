@@ -1,7 +1,7 @@
 backports.functools-lru-cache==1.5
 beautifulsoup4==4.8.0
 bs4==0.0.1
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 Paste==3.2.0
 robotexclusionrulesparser==1.7.1
